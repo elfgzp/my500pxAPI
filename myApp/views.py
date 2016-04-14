@@ -4,6 +4,7 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 import requests
+import json
 import sys
 
 reload(sys)
@@ -19,6 +20,8 @@ def index(request,photo,id):
     selector = etree.HTML(html.text)
     imageUrl = selector.xpath('/html/head/meta[@property="og:image"]/@content')  # imageUrl类型为list
     if len(imageUrl):
-        return HttpResponse(imageUrl[0])
+        data = {"imageUrl":imageUrl[0]}
+        jsonData = json.dumps(data)
+        return HttpResponse(jsonData)
     else:
-        return HttpResponse("")
+        return HttpResponse("{}")
